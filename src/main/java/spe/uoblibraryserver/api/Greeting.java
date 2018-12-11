@@ -16,4 +16,9 @@ public class Greeting {
   public String number(@PathVariable int number){
     return number+"\n";
   }
+  
+  @RequestMapping("/requester")
+  public String requester() {
+    return Requester.ip();
+  }
 }

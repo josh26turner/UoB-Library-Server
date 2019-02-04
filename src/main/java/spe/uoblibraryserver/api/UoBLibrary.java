@@ -6,11 +6,6 @@ import java.io.IOException;
 import java.util.Random;
 
 class UoBLibrary {
-  
-  static String getOCLCSymbol() {
-    return "BUB";
-  }
-  
   static String getRegistryId() {
     return "132607";
   }

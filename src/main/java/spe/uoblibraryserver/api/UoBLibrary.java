@@ -5,11 +5,23 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
+/**
+ * A class to store the data for the university to use in requests to WMS
+ */
 class UoBLibrary {
+  
+  /**
+   * To get the registry to put in body
+   * @return - the uni registry ID in OCLC
+   */
   static String getRegistryId() {
     return "132607";
   }
-
+  
+  /**
+   * Make a nonce value for HMAC
+   * @return - a nonce value
+   */
   static String getNonce() {
     Random random = new Random();
 
@@ -18,14 +30,24 @@ class UoBLibrary {
 
     return Integer.toString(i) + j;
   }
-
+  
+  /**
+   * Returns the private key for access to NCIP on the WMS system
+   * @return - the private key
+   * @throws IOException - if the file doesn't exist
+   */
   static String getPrivateKey() throws IOException {
     FileReader fileReader = new FileReader("src/main/resources/WMSSecretKey.key");
     BufferedReader bufferedReader = new BufferedReader(fileReader);
 
     return bufferedReader.readLine();
   }
-
+  
+  /**
+   * Returns the public key for access to NCIP on the WMS system
+   * @return - the public key
+   * @throws IOException - if the file doesn't exist
+   */
   static String getPublicKey() throws IOException {
     FileReader fileReader = new FileReader("src/main/resources/WMSPublicKey.key");
     BufferedReader bufferedReader = new BufferedReader(fileReader);

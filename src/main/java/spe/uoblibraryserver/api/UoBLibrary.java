@@ -17,7 +17,15 @@ class UoBLibrary {
   static String getRegistryId() {
     return "132607";
   }
-  
+
+  /**
+   * Get the data center for use in the URL
+   * @return - the data center
+   */
+  static String getDataCenter() {
+    return "EMEA";
+  }
+
   /**
    * Make a nonce value for HMAC
    * @return - a nonce value

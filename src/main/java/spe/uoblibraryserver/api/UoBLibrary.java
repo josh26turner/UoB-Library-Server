@@ -8,13 +8,13 @@ import java.util.Random;
 /**
  * A class to store the data for the university to use in requests to WMS
  */
-class UoBLibrary {
+public class UoBLibrary {
   
   /**
    * To get the registry to put in body
    * @return - the uni registry ID in OCLC
    */
-  static String getRegistryId() {
+  public static String getRegistryId() {
     return "132607";
   }
 
@@ -22,7 +22,7 @@ class UoBLibrary {
    * Get the data center for use in the URL
    * @return - the data center
    */
-  static String getDataCenter() {
+  public static String getDataCenter() {
     return "EMEA";
   }
 
@@ -30,7 +30,7 @@ class UoBLibrary {
    * Make a nonce value for HMAC
    * @return - a nonce value
    */
-  static String getNonce() {
+  public static String getNonce() {
     Random random = new Random();
 
     int i = random.nextInt(Integer.MAX_VALUE);

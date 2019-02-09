@@ -26,4 +26,4 @@
 
 src/main/resources/WMSSecretKey.key
 src/main/resources/WMSPublicKey.key
-src/main/resources/ErrorResponse.log
+/src/main/resources/ErrorResponse.log

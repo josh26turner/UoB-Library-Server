@@ -14,37 +14,32 @@ import java.io.IOException;
 public class Request {
   private CheckOutRequest checkOutRequest = new CheckOutRequest();
 
-  public Request(String xml) {
-    try {
-      Document document = XMLParser.parse(xml);
+  public Request(String xml) throws IOException, SAXException, ParserConfigurationException {
+    Document document = XMLParser.parse(xml);
 
-      Node doc = document.getChildNodes().item(0);
+    Node doc = document.getChildNodes().item(0);
 
-      NodeList nodeList = doc.getChildNodes();
+    NodeList nodeList = doc.getChildNodes();
 
-      for (int i = 0; i < nodeList.getLength(); i ++) {
-        Node item = nodeList.item(i);
+    for (int i = 0; i < nodeList.getLength(); i ++) {
+      Node item = nodeList.item(i);
 
-        switch (item.getNodeName()) {
-          case "userId":
-            checkOutRequest.setUserID(item.getChildNodes().item(0).getNodeValue());
-            break;
+      switch (item.getNodeName()) {
+        case "userId":
+          checkOutRequest.setUserID(item.getChildNodes().item(0).getNodeValue());
+          break;
 
-          case "accessToken":
-            checkOutRequest.setAccessToken(item.getChildNodes().item(0).getNodeValue());
-            break;
+        case "accessToken":
+          checkOutRequest.setAccessToken(item.getChildNodes().item(0).getNodeValue());
+          break;
 
-          case "itemId":
-            checkOutRequest.setItemID(item.getChildNodes().item(0).getNodeValue());
-            break;
+        case "itemId":
+          checkOutRequest.setItemID(item.getChildNodes().item(0).getNodeValue());
+          break;
 
-          default:
-            ErrorResponse.erroneousXML(xml);
-        }
+        default:
+          ErrorResponse.erroneousXML(xml);
       }
-
-    } catch (ParserConfigurationException | SAXException | IOException e) {
-      e.printStackTrace();
     }
   }
 

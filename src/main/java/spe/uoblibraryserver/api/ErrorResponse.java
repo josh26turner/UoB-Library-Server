@@ -16,7 +16,7 @@ public class ErrorResponse {
    */
   public void authError(String userID, String itemID) {
     Date date = new Date();
-    String error = date.toString() + ", user: " + userID + " taking out: " + itemID + "\n";
+    String error = date.toString() + ", user: " + userID + " taking out: " + itemID;
     
     writeToLog(error);
 
@@ -30,7 +30,7 @@ public class ErrorResponse {
    */
   public static String error404() {
     Date date = new Date();
-    String error = date.toString() + " Error 404\n";
+    String error = date.toString() + " Error 404";
   
     writeToLog(error);
     System.out.println("404 error");
@@ -40,9 +40,9 @@ public class ErrorResponse {
 
   public static void erroneousXML(String xml) {
     Date date = new Date();
-    String error = date.toString() + " Erroneous XML\n";
+    String error = date.toString() + " Erroneous XML: ";
 
-    writeToLog(error);
+    writeToLog(error + xml);
   }
 
   private static void writeToLog(String record) {
@@ -51,7 +51,7 @@ public class ErrorResponse {
               new FileWriter("src/main/resources/ErrorResponse.log", true)
       );
 
-      errorLog.write(record);
+      errorLog.write(record + "\n");
       errorLog.close();
     } catch (IOException e) {
       e.printStackTrace();

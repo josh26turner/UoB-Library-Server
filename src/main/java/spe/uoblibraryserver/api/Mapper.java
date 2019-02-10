@@ -9,11 +9,21 @@ import java.io.IOException;
 
 @RestController
 public class Mapper {
+
+  /**
+   *
+   * @return
+   */
   @RequestMapping("/home")
   public String home() {
     return "Welcome";
   }
-  
+
+  /**
+   * The function handling POST requests for checking out books
+   * @param xml - the body of the POST request
+   * @return - The conformation/rejection of the request from WMS
+   */
   @PostMapping("/checkout")
   public String checkout(@RequestBody String xml) {
     Request request = null;
@@ -28,7 +38,12 @@ public class Mapper {
 
     return request.formatRequest();
   }
-  
+
+  /**
+   * The function handling authorisation requests from the app
+   * @param userID - the ID of the user being checked
+   * @return - Something saying whether the user is authenticated or not
+   */
   @PostMapping("/auth/{userID}")
   public String auth(@PathVariable String userID) {
     return userID;

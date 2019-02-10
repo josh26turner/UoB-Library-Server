@@ -14,6 +14,13 @@ import java.io.IOException;
 public class Request {
   private CheckOutRequest checkOutRequest = new CheckOutRequest();
 
+  /**
+   *
+   * @param xml - The body of the HTTP POST for checking out a book
+   * @throws IOException - An error in the XML
+   * @throws SAXException - An error in the XML
+   * @throws ParserConfigurationException - An error in the XML
+   */
   public Request(String xml) throws IOException, SAXException, ParserConfigurationException {
     Document document = XMLParser.parse(xml);
 
@@ -43,10 +50,10 @@ public class Request {
     }
   }
 
-  public CheckOutRequest getCheckOutRequest() {
-    return checkOutRequest;
-  }
-
+  /**
+   *
+   * @return - The XML to form the body of the post request to WMS system to checkout a book
+   */
   public String formatRequest(){
     String userId = checkOutRequest.getUserID();
     String itemIdValue = checkOutRequest.getItemID();

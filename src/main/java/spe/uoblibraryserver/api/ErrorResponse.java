@@ -19,9 +19,6 @@ public class ErrorResponse {
     String error = date.toString() + ", user: " + userID + " taking out: " + itemID;
     
     writeToLog(error);
-
-
-    System.out.println("An error occurred adding the error to the log ?????");
   }
   
   /**
@@ -38,6 +35,10 @@ public class ErrorResponse {
     return error;
   }
 
+  /**
+   * When an erroneous body is sent to the checkout URL
+   * @param xml - the body of the POST method
+   */
   public static void erroneousXML(String xml) {
     Date date = new Date();
     String error = date.toString() + " Erroneous XML: ";
@@ -45,6 +46,10 @@ public class ErrorResponse {
     writeToLog(error + xml);
   }
 
+  /**
+   * Writing an error to the log file
+   * @param record - The error to record in the log file
+   */
   private static void writeToLog(String record) {
     try {
       BufferedWriter errorLog = new BufferedWriter(

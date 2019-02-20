@@ -23,7 +23,7 @@ public class UoBLibrary {
    * @return - the data center
    */
   public static String getDataCenter() {
-    return "EMEA";
+    return "sd02";
   }
 
   /**

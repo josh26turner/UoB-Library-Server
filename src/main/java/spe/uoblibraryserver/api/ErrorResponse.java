@@ -51,9 +51,13 @@ public class ErrorResponse {
    * @param record - The error to record in the log file
    */
   private static void writeToLog(String record) {
+    File file = new File("ErrorResponse.log");
+    
     try {
+      file.createNewFile();
+      
       BufferedWriter errorLog = new BufferedWriter(
-              new FileWriter("src/main/resources/ErrorResponse.log", true)
+              new FileWriter("ErrorResponse.log", true)
       );
 
       errorLog.write(record + "\n");

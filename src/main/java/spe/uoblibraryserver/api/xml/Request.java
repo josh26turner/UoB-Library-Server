@@ -86,5 +86,9 @@ public class Request {
             "    </CheckOutItem>\n" +
             "</NCIPMessage>\n";
   }
+  
+  public CheckOutRequest getCheckOutRequest() {
+    return checkOutRequest;
+  }
 }
 

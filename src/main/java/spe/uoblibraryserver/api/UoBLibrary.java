@@ -1,7 +1,5 @@
 package spe.uoblibraryserver.api;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Random;
 
@@ -42,24 +40,16 @@ public class UoBLibrary {
   /**
    * Returns the private key for access to NCIP on the WMS system
    * @return - the private key
-   * @throws IOException - if the file doesn't exist
    */
-  static String getPrivateKey() throws IOException {
-    FileReader fileReader = new FileReader("src/main/resources/WMSSecretKey.key");
-    BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-    return bufferedReader.readLine();
+  static String getPrivateKey() {
+    return Keys.getSecretKey();
   }
   
   /**
    * Returns the public key for access to NCIP on the WMS system
    * @return - the public key
-   * @throws IOException - if the file doesn't exist
    */
-  static String getPublicKey() throws IOException {
-    FileReader fileReader = new FileReader("src/main/resources/WMSPublicKey.key");
-    BufferedReader bufferedReader = new BufferedReader(fileReader);
-
-    return bufferedReader.readLine();
+  static String getPublicKey() {
+    return Keys.getPubicKey();
   }
 }

@@ -5,17 +5,21 @@ import org.junit.Test;
 import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
 public class HmacTests {
   @Test
   public void basicHmac(){
-    Date date = new Date();
-    System.out.println(date.getTime());
-    Hmac hmac = new Hmac();
-    
+    try {
+      System.out.println(Hmac.getHash(Hmac.getMessage("GET")));
+    } catch (NoSuchAlgorithmException e) {
+      e.printStackTrace();
+    } catch (IOException e) {
+      e.printStackTrace();
+    } catch (InvalidKeyException e) {
+      e.printStackTrace();
+    }
     try {
       String message = UoBLibrary.getPublicKey() + "\n"
               + "1361408273" + "\n"
@@ -27,7 +31,7 @@ public class HmacTests {
               + "/wskey" + "\n"
               + "inst=128807" + "\n";
       
-      assertEquals("5oFM60Bl8a60rVW7zM+nw/hysbur80ci3ycgOKVczNE=", hmac.getHash(message));
+      assertEquals("5oFM60Bl8a60rVW7zM+nw/hysbur80ci3ycgOKVczNE=", Hmac.getHash(message));
     } catch (NoSuchAlgorithmException | InvalidKeyException | IOException e) {
       e.printStackTrace();
     }

@@ -10,12 +10,16 @@ import java.util.Date;
 
 class Hmac {
   
-  String getMessage(String httpMethod) throws IOException{
+  static String getMessage(String httpMethod) {
     Date date = new Date();
+    String nonce = UoBLibrary.getNonce();
+    System.out.println(nonce);
+    long time = date.getTime();
+    System.out.println(time);
     
     return UoBLibrary.getPublicKey() + "\n"
-            + date.getTime() + "\n"
-            + "981333313127278655903652665637" + "\n"
+            + time + "\n"
+            + nonce + "\n"
             + "\n"
             + httpMethod + "\n"
             + "www.oclc.org" + "\n"
@@ -24,7 +28,7 @@ class Hmac {
             + "inst=" + UoBLibrary.getRegistryId() + "\n";
   }
   
-  String getHash(String message) throws NoSuchAlgorithmException, IOException, InvalidKeyException {
+  static String getHash(String message) throws NoSuchAlgorithmException, IOException, InvalidKeyException {
     Mac sha256 = Mac.getInstance("HmacSHA256");
     
     String secret = UoBLibrary.getPrivateKey();

@@ -6,13 +6,15 @@ import spe.uoblibraryserver.api.xml.Request;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 
 @RestController
 public class Mapper {
 
   /**
    *
-   * @return
+   * @return - Welcome
    */
   @RequestMapping("/home")
   public String home() {
@@ -29,6 +31,10 @@ public class Mapper {
     Request request;
     try {
       request = new Request(xml);
+      
+      String message = Hmac.getMessage("POST");
+      
+      String auth = Hmac.getHash(message);
       
       //TODO add check for user authorised
   
@@ -68,7 +74,10 @@ public class Mapper {
     } catch (IOException | SAXException | ParserConfigurationException e) {
       ErrorResponse.erroneousXML(xml);
       return "Error XML\n";
+    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+      e.printStackTrace();
     }
+    return "Problem?";
   }
 
   /**

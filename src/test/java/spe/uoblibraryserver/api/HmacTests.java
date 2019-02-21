@@ -12,16 +12,7 @@ public class HmacTests {
   @Test
   public void basicHmac(){
     try {
-      System.out.println(Hmac.getHash(Hmac.getMessage("GET")));
-    } catch (NoSuchAlgorithmException e) {
-      e.printStackTrace();
-    } catch (IOException e) {
-      e.printStackTrace();
-    } catch (InvalidKeyException e) {
-      e.printStackTrace();
-    }
-    try {
-      String message = UoBLibrary.getPublicKey() + "\n"
+      String message = "jdfRzYZbLc8HZXFByyyLGrUqTOOmkJOAPi4tAN0E7xI3hgE2xDgwJ7YPtkwM6W3ol5yz0d0JHgE1G2Wa" + "\n"
               + "1361408273" + "\n"
               + "981333313127278655903652665637" + "\n"
               + "\n"
@@ -31,9 +22,24 @@ public class HmacTests {
               + "/wskey" + "\n"
               + "inst=128807" + "\n";
       
-      assertEquals("5oFM60Bl8a60rVW7zM+nw/hysbur80ci3ycgOKVczNE=", Hmac.getHash(message));
+      assertEquals("5O6SRig58wqm6gqEu3oSODVte6Albon9CCvNrZHCoys=", Hmac.getHash(message, "UYnwZbmvf3fAXCEa0JryLQ=="));
     } catch (NoSuchAlgorithmException | InvalidKeyException | IOException e) {
       e.printStackTrace();
     }
   }
+
+
+  /**
+   * Not a test....
+   */
+  @Test
+  public void hmacGen(){
+      System.out.println(Hmac.getHeader("POST", "authenticatingInstitutionId=132607\ncontextInstitutionId=132607\ngrant_type=client_credentials\nscope=SCIM%3Aread_self"));
+
+  }
+
+
+
+
+
 }

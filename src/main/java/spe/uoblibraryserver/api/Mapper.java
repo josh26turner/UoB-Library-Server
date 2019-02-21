@@ -32,9 +32,9 @@ public class Mapper {
     try {
       request = new Request(xml);
       
-      String message = Hmac.getMessage("POST");
+//      String message = Hmac.getMessage("POST");
       
-      String auth = Hmac.getHash(message);
+//      String auth = Hmac.getHash(message);
       
       //TODO add check for user authorised
   
@@ -74,10 +74,11 @@ public class Mapper {
     } catch (IOException | SAXException | ParserConfigurationException e) {
       ErrorResponse.erroneousXML(xml);
       return "Error XML\n";
-    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-      e.printStackTrace();
     }
-    return "Problem?";
+//    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
+//      e.printStackTrace();
+//    }
+//    return "Problem?";
   }
 
   /**

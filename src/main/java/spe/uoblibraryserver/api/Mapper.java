@@ -6,8 +6,6 @@ import spe.uoblibraryserver.api.xml.Request;
 
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 
 @RestController
 public class Mapper {

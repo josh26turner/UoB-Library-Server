@@ -1,6 +1,5 @@
 package spe.uoblibraryserver.api;
 
-import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -42,7 +41,7 @@ public class UoBLibrary {
    * @return - the private key
    */
   static String getPrivateKey() {
-    return Keys.getSecretKey();
+    return Keys.getCheckoutSecretKey();
   }
   
   /**
@@ -50,6 +49,6 @@ public class UoBLibrary {
    * @return - the public key
    */
   static String getPublicKey() {
-    return Keys.getPubicKey();
+    return Keys.getCheckoutPubicKey();
   }
 }

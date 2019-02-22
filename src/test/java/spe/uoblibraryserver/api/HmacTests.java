@@ -2,7 +2,6 @@ package spe.uoblibraryserver.api;
 
 import org.junit.Test;
 
-import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
@@ -23,7 +22,7 @@ public class HmacTests {
               + "inst=128807" + "\n";
       
       assertEquals("5O6SRig58wqm6gqEu3oSODVte6Albon9CCvNrZHCoys=", Hmac.getHash(message, "UYnwZbmvf3fAXCEa0JryLQ=="));
-    } catch (NoSuchAlgorithmException | InvalidKeyException | IOException e) {
+    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
       e.printStackTrace();
     }
   }
@@ -35,7 +34,6 @@ public class HmacTests {
   @Test
   public void hmacGen(){
       System.out.println(Hmac.getHeader("POST", "authenticatingInstitutionId=132607\ncontextInstitutionId=132607\ngrant_type=client_credentials\nscope=SCIM%3Aread_self"));
-
   }
 
 

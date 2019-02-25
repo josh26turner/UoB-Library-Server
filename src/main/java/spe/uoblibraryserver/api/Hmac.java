@@ -32,12 +32,12 @@ class Hmac {
     return encoder.encodeToString(sha256.doFinal(message.getBytes()));
   }
 
-  static String getHeader(String httpMethod, String query) {
+  static String getAuthHeader(String httpMethod, String query, String userID) {
     Date date = new Date();
     String nonce = UoBLibrary.getNonce();
     long time = date.getTime() / 1000;
     String message = getMessage(httpMethod, time, nonce, query);
-    System.out.println(message);
+    //System.out.println(message);
     String hash = "";
     try {
       hash = getHash(message, UoBLibrary.getPrivateKey());
@@ -49,7 +49,7 @@ class Hmac {
             "timestamp=\"" + time + "\", " +
             "nonce=\"" + nonce + "\", " +
             "signature=\"" + hash + "\", " +
-            "principalID=\"fe6e89f3-ff59-4158-8980-44e38bfe6d0e\", " +
+            "principalID=\"" + userID + "\", " +
             "principalIDNS=\"urn:oclc:platform:132607\"";
   }
 }

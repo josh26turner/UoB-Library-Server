@@ -1,11 +1,26 @@
 package spe.uoblibraryserver.api;
 
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.ssl.TrustStrategy;
 import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 import spe.uoblibraryserver.api.xml.Request;
 
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 @RestController
 public class Mapper {
@@ -84,8 +99,37 @@ public class Mapper {
    * @param userID - the ID of the user being checked
    * @return - Something saying whether the user is authenticated or not
    */
-  @PostMapping("/auth/{userID}")
-  public String auth(@PathVariable String userID) {
-    return userID;
+  @GetMapping("/auth/{userID}")
+  public String auth(@PathVariable String userID, @RequestHeader("Authorization") String accessToken) {
+    
+    //TODO: Check access token
+    
+    UserManagementRequest userManagementRequest = new UserManagementRequest();
+    
+    String authHeader = userManagementRequest.formRequestHeader(userID);
+    
+    System.out.println(authHeader);
+  
+    try {
+      DefaultHttpClient httpclient = new DefaultHttpClient();
+      
+      String accessTokenURL = "http://authn.sd00.worldcat.org/oauth2/accessToken?grant_type=client_credentials&authenticatingInstitutionId=132607&contextInstitutionId=132607&scope=SCIM:read_self";
+
+      HttpPost httpPost = new HttpPost(accessTokenURL);
+      
+      HttpResponse httpResponse = httpclient.execute(httpPost);
+
+      HttpEntity httpEntity = httpResponse.getEntity();
+
+      if (httpEntity != null) {
+        System.out.println(httpResponse.getStatusLine().getStatusCode());
+      } else System.out.println("Yeah, no");
+
+      //URL idManagementURL = new URL("https://" + UoBLibrary.getRegistryId() + ".share.worldcat.org/idaas/scim/v2/Me");
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
+  
+    return userID + accessToken;
   }
 }

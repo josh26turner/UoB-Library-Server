@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import org.xml.sax.SAXException;
 import spe.uoblibraryserver.api.xml.Request;
 
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLPeerUnverifiedException;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.cert.Certificate;
 
 @RestController
 public class Mapper {
@@ -93,7 +94,63 @@ public class Mapper {
 //    }
 //    return "Problem?";
   }
-
+  
+  private void print_https_cert(HttpsURLConnection con){
+    
+    if(con!=null){
+      
+      try {
+        
+        System.out.println("Response Code : " + con.getResponseCode());
+        System.out.println("Cipher Suite : " + con.getCipherSuite());
+        System.out.println("\n");
+        
+        Certificate[] certs = con.getServerCertificates();
+        for(Certificate cert : certs){
+          System.out.println("Cert Type : " + cert.getType());
+          System.out.println("Cert Hash Code : " + cert.hashCode());
+          System.out.println("Cert Public Key Algorithm : "
+                  + cert.getPublicKey().getAlgorithm());
+          System.out.println("Cert Public Key Format : "
+                  + cert.getPublicKey().getFormat());
+          System.out.println("\n");
+        }
+        
+      } catch (SSLPeerUnverifiedException e) {
+        e.printStackTrace();
+      } catch (IOException e){
+        e.printStackTrace();
+      }
+      
+    }
+    
+  }
+  
+  private void print_content(HttpsURLConnection con){
+    if(con!=null){
+      
+      try {
+        
+        System.out.println("****** Content of the URL ********");
+        BufferedReader br =
+                new BufferedReader(
+                        new InputStreamReader(con.getInputStream()));
+        
+        String input;
+        
+        while ((input = br.readLine()) != null){
+          System.out.println(input);
+        }
+        br.close();
+        
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+      
+    }
+    
+  }
+  
   /**
    * The function handling authorisation requests from the app
    * @param userID - the ID of the user being checked
@@ -107,24 +164,25 @@ public class Mapper {
     UserManagementRequest userManagementRequest = new UserManagementRequest();
     
     String authHeader = userManagementRequest.formRequestHeader(userID);
-    
-    System.out.println(authHeader);
   
     try {
-      DefaultHttpClient httpclient = new DefaultHttpClient();
+      URL accessTokenURL = new URL("https://authn.sd00.worldcat.org/oauth2/accessToken?grant_type=client_credentials&authenticatingInstitutionId=132607&contextInstitutionId=132607&scope=SCIM:read_self");
+  
+      HttpsURLConnection accessTokenURLConnection = (HttpsURLConnection) accessTokenURL.openConnection();
       
-      String accessTokenURL = "http://authn.sd00.worldcat.org/oauth2/accessToken?grant_type=client_credentials&authenticatingInstitutionId=132607&contextInstitutionId=132607&scope=SCIM:read_self";
-
-      HttpPost httpPost = new HttpPost(accessTokenURL);
+      accessTokenURLConnection.setRequestMethod("POST");
       
-      HttpResponse httpResponse = httpclient.execute(httpPost);
-
-      HttpEntity httpEntity = httpResponse.getEntity();
-
-      if (httpEntity != null) {
-        System.out.println(httpResponse.getStatusLine().getStatusCode());
-      } else System.out.println("Yeah, no");
-
+      accessTokenURLConnection.setRequestProperty("Authorization", authHeader);
+  
+      OutputStreamWriter writer = new OutputStreamWriter(accessTokenURLConnection.getOutputStream());
+  
+      writer.write(data);
+      writer.flush();
+      
+      print_https_cert(accessTokenURLConnection);
+      
+      print_content(accessTokenURLConnection);
+      
       //URL idManagementURL = new URL("https://" + UoBLibrary.getRegistryId() + ".share.worldcat.org/idaas/scim/v2/Me");
     } catch (IOException e) {
       e.printStackTrace();

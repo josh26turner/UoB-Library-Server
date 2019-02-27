@@ -35,9 +35,17 @@ public class HmacTests {
   public void hmacGen(){
       System.out.println(Hmac.getAuthHeader("POST", "authenticatingInstitutionId=132607\ncontextInstitutionId=132607\ngrant_type=client_credentials\nscope=SCIM%3Aread_self", "fe6e89f3-ff59-4158-8980-44e38bfe6d0e"));
   }
-
-
-
+  
+  
+  /**
+   * Not a test....
+   */
+  @Test
+  public void notATest(){
+    Mapper mapper = new Mapper();
+  
+    System.out.println(mapper.auth("fe6e89f3-ff59-4158-8980-44e38bfe6d0e", "123"));
+  }
 
 
 }

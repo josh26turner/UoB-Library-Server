@@ -33,7 +33,7 @@ public class HmacTests {
    */
   @Test
   public void hmacGen(){
-      System.out.println(Hmac.getAuthHeader("POST", "authenticatingInstitutionId=132607\ncontextInstitutionId=132607\ngrant_type=client_credentials\nscope=SCIM%3Aread_self", "fe6e89f3-ff59-4158-8980-44e38bfe6d0e"));
+      System.out.println(Hmac.getOAuthHeader("POST", "authenticatingInstitutionId=132607\ncontextInstitutionId=132607\ngrant_type=client_credentials\nscope=SCIM%3Aread_self", "fe6e89f3-ff59-4158-8980-44e38bfe6d0e"));
   }
   
   

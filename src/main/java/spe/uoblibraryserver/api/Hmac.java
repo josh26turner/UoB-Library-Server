@@ -33,7 +33,7 @@ class Hmac {
     return encoder.encodeToString(sha256.doFinal(message.getBytes()));
   }
 
-  static String getAuthHeader(String httpMethod, String query, String userID) {
+  static String getOAuthHeader(String httpMethod, String query, String userID) {
     Date date = new Date();
     String nonce = UoBLibrary.getNonce();
     long time = date.getTime() / 1000;

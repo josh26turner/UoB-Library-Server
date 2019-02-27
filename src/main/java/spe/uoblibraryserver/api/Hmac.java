@@ -3,14 +3,15 @@ package spe.uoblibraryserver.api;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
+import java.security.Key;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
 
 class Hmac {
   
-  static String getMessage(String httpMethod, Long time, String nonce, String query) {
-    return UoBLibrary.getPublicKey() + "\n"
+  static String getMessage(String httpMethod, Long time, String nonce, String query, String publicKey) {
+    return publicKey + "\n"
             + time + "\n"
             + nonce + "\n"
             + "\n"
@@ -36,16 +37,16 @@ class Hmac {
     Date date = new Date();
     String nonce = UoBLibrary.getNonce();
     long time = date.getTime() / 1000;
-    String message = getMessage(httpMethod, time, nonce, query);
+    String message = getMessage(httpMethod, time, nonce, query, Keys.getOAuthPublicKey());
     //System.out.println(message);
     String hash = "";
     try {
-      hash = getHash(message, UoBLibrary.getPrivateKey());
+      hash = getHash(message, Keys.getOAuthSecretKey());
     } catch (Exception ex){
       // ???
     }
     return "http://www.worldcat.org/wskey/v2/hmac/v1 " +
-            "clientId=\"" + UoBLibrary.getPublicKey() + "\", " +
+            "clientId=\"" + Keys.getOAuthPublicKey() + "\", " +
             "timestamp=\"" + time + "\", " +
             "nonce=\"" + nonce + "\", " +
             "signature=\"" + hash + "\", " +

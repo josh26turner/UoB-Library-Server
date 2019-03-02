@@ -12,7 +12,6 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
 
 public class Request {
-  private CheckOutRequest checkOutRequest = new CheckOutRequest();
 
   /**
    *
@@ -21,7 +20,7 @@ public class Request {
    * @throws SAXException - An error in the XML
    * @throws ParserConfigurationException - An error in the XML
    */
-  public Request(String xml) throws IOException, SAXException, ParserConfigurationException {
+  public Request(String xml, CheckOutRequest checkOutRequest) throws IOException, SAXException, ParserConfigurationException {
     Document document = XMLParser.parse(xml);
 
     Node doc = document.getChildNodes().item(0);
@@ -54,7 +53,7 @@ public class Request {
    *
    * @return - The XML to form the body of the post request to WMS system to checkout a book
    */
-  public String formatRequest(){
+  public String formatRequest(CheckOutRequest checkOutRequest){
     String userId = checkOutRequest.getUserID();
     String itemIdValue = checkOutRequest.getItemID();
 
@@ -85,10 +84,6 @@ public class Request {
             "        </ItemId>\n" +
             "    </CheckOutItem>\n" +
             "</NCIPMessage>\n";
-  }
-  
-  public CheckOutRequest getCheckOutRequest() {
-    return checkOutRequest;
   }
 }
 

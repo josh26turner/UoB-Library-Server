@@ -9,7 +9,8 @@ import java.net.URL;
 class AuthorizationRequest {
   String makeRequest(String userID, String accessToken) {
 
-    //TODO: Check access token
+    UserAuth userAuth = new UserAuth();
+    if (userAuth.makeRequest(userID, accessToken)) return "Not authorized";
 
     UserManagementRequest userManagementRequest = new UserManagementRequest();
 

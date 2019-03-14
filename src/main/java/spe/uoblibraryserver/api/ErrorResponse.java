@@ -60,7 +60,7 @@ public class ErrorResponse {
               new FileWriter("ErrorResponse.log", true)
       );
 
-      errorLog.write(record + "\n");
+      errorLog.write(record + "\n\n");
       errorLog.close();
     } catch (IOException e) {
       e.printStackTrace();

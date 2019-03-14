@@ -7,8 +7,19 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.Date;
 
+/**
+ * Forms the relevant HMAC signatures for the request made by the server
+ */
 class Hmac {
-  
+
+  /**
+   * Forms the message to be encrypted by the HMAC algorithm
+   * @param time - time of request
+   * @param nonce - random number
+   * @param query - the URL parameters
+   * @param publicKey - the respective public key to the one encrypting
+   * @return - an unencrypted message
+   */
   private static String getMessage(Long time, String nonce, String query, String publicKey) {
     return publicKey + "\n"
             + time + "\n"
@@ -18,13 +29,21 @@ class Hmac {
             + "www.oclc.org" + "\n"
             + "443" + "\n"
             + "/wskey" + "\n"
-            + query + "\n";
+            + query;
   }
 
-  static String getHash(String message, String secret) throws NoSuchAlgorithmException, InvalidKeyException {
+  /**
+   * Create a HMAC message with the SHA256 algorithm
+   * @param message - what is the be encrypted
+   * @param privateKey - the key with which to encrypt
+   * @return - the encrypted message
+   * @throws NoSuchAlgorithmException - thrown if the algorithm doesn't exist
+   * @throws InvalidKeyException - thrown if the key is of the correct form
+   */
+  static String getHash(String message, String privateKey) throws NoSuchAlgorithmException, InvalidKeyException {
     Mac sha256 = Mac.getInstance("HmacSHA256");
     
-    SecretKeySpec secretKey = new SecretKeySpec(secret.getBytes(), "HmacSHA256");
+    SecretKeySpec secretKey = new SecretKeySpec(privateKey.getBytes(), "HmacSHA256");
     sha256.init(secretKey);
     
     Base64.Encoder encoder = Base64.getEncoder();
@@ -32,41 +51,47 @@ class Hmac {
     return encoder.encodeToString(sha256.doFinal(message.getBytes()));
   }
 
+  /**
+   * Creates a geader for an oauth request
+   * @param query - the URL parameters
+   * @param userID - the user making the request
+   * @return - the header
+   */
   static String getOAuthHeader(String query, String userID) {
+    return header(Keys.getOAuthPublicKey(), Keys.getOAuthSecretKey(), query, userID);
+  }
+
+  /**
+   * Creates a header for a checkout request
+   * @param userID - the checkout user
+   * @return - the header
+   */
+  static String getCheckoutHeader(String userID) {
+    return header(Keys.getCheckoutPubicKey(), Keys.getCheckoutSecretKey(), "", userID);
+  }
+
+  /**
+   * Form a generic authorization header
+   * @param publicKey - the public key for the request
+   * @param privateKey - the private key for the request
+   * @param query - the URL parameters
+   * @param userID - the user making the request
+   * @return - the authorization header
+   */
+  private static String header(String publicKey, String privateKey, String query, String userID) {
     Date date = new Date();
     String nonce = UoBLibrary.getNonce();
     long time = date.getTime() / 1000;
     String message = getMessage(time, nonce, query, Keys.getOAuthPublicKey());
-    //System.out.println(message);
+
     String hash = "";
     try {
-      hash = getHash(message, Keys.getOAuthSecretKey());
+      hash = getHash(message, privateKey);
     } catch (Exception ex){
       // ???
     }
     return "http://www.worldcat.org/wskey/v2/hmac/v1 " +
-            "clientId=\"" + Keys.getOAuthPublicKey() + "\", " +
-            "timestamp=\"" + time + "\", " +
-            "nonce=\"" + nonce + "\", " +
-            "signature=\"" + hash + "\", " +
-            "principalID=\"" + userID + "\", " +
-            "principalIDNS=\"urn:oclc:platform:132607\"";
-  }
-  
-  static String getCheckoutHeader(String userID) {
-    Date date = new Date();
-    String nonce = UoBLibrary.getNonce();
-    long time = date.getTime() / 1000;
-    String message = getMessage(time, nonce, "", Keys.getCheckoutPubicKey());
-    
-    String hash = "";
-    try {
-      hash = getHash(message, Keys.getCheckoutSecretKey());
-    } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-      e.printStackTrace();
-    }
-    return "http://www.worldcat.org/wskey/v2/hmac/v1 " +
-            "clientId=\"" + Keys.getCheckoutPubicKey() + "\", " +
+            "clientId=\"" + publicKey + "\", " +
             "timestamp=\"" + time + "\", " +
             "nonce=\"" + nonce + "\", " +
             "signature=\"" + hash + "\", " +

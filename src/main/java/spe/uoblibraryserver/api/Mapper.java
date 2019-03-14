@@ -1,14 +1,12 @@
 package spe.uoblibraryserver.api;
 
-import org.springframework.web.bind.annotation.*;
-import org.xml.sax.SAXException;
-import spe.uoblibraryserver.api.xml.Request;
-
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLPeerUnverifiedException;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.*;
-import java.net.URL;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class Mapper {

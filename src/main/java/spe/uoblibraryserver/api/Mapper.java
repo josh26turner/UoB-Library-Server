@@ -27,10 +27,8 @@ public class Mapper {
    */
   @PostMapping("/checkout")
   public String checkout(@RequestBody String xml) {
-    //TODO add check for user authorised
-    
-    CheckOutRequest  checkOutRequest = new CheckOutRequest();
-    checkOutRequest.checkOutRequest(xml);
+    CheckOutRequest checkOutRequest = new CheckOutRequest();
+    System.out.println(checkOutRequest.checkOutRequest(xml));
   
     return  "<ns1:NCIPMessage xmlns:ns2=\"http://oclc.org/WCL/ncip/2011/extensions\" xmlns:ns1=\"http://www.niso.org/2008/ncip\" ns1:version=\"2.0\">\n" +
             "<ns1:CheckOutItemResponse>\n" +

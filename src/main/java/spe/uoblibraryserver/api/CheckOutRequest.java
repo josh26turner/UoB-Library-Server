@@ -38,6 +38,10 @@ public class CheckOutRequest {
     String checkOutRequest(String xml) {
         try {
             Request request = new Request(xml, this);
+
+            UserAuth userAuth = new UserAuth();
+            if (!userAuth.makeRequest(userID, accessToken)) return "Not authorized";
+
             String body = request.formatRequest(this);
     
             String auth = Hmac.getCheckoutHeader(userID);

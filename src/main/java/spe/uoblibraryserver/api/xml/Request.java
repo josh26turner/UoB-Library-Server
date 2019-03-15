@@ -71,7 +71,7 @@ public class Request {
             "    <CheckOutItem>\n" +
             "        <InitiationHeader>\n" +
             "            <FromAgencyId>\n" +
-            "                <AgencyId ncip:Scheme=\"http://oclc.org/ncip/schemes/agencyid.scm\">" + UoBLibrary.getRegistryId() + "</AgencyId>\n" +
+            "                <AgencyId ncip:Scheme=\"http://oclc.org/ncip/schemes/agencyid.scm\">" + location + "</AgencyId>\n" +
             "            </FromAgencyId>\n" +
             "            <ToAgencyId>\n" +
             "                <AgencyId>" + location + "</AgencyId>\n" +
@@ -86,7 +86,7 @@ public class Request {
             "            <AgencyId>" + UoBLibrary.getRegistryId() + "</AgencyId>\n" +
             "            <ItemIdentifierValue>" + itemIdValue + "</ItemIdentifierValue>\n" +
             "        </ItemId>\n" +
-            "        <ItemElementType>" + "description" + "</ItemElementType>\n" +
+            "        <ItemElementType>Bibliographic Description</ItemElementType>\n" +
             "    </CheckOutItem>\n" +
             "</NCIPMessage>\n";
   }

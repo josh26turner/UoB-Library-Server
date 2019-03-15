@@ -52,7 +52,7 @@ public class CheckOutRequest {
             if (!userAuth.makeRequest(userID, accessToken)) return "Not authorized";
 
             String body = request.formatRequest(this);
-    
+
             String auth = Hmac.getCheckoutHeader(UoBLibrary.getAdminUID());
 
             return makeRequest(auth, body);
@@ -67,16 +67,18 @@ public class CheckOutRequest {
     private String makeRequest(String auth, String body) {
         try {
             URL checkoutURL = new URL("https://circ." + UoBLibrary.getDataCenter() + ".worldcat.org/ncip");
-
             HttpsURLConnection checkoutURLConnection = (HttpsURLConnection) checkoutURL.openConnection();
 
             checkoutURLConnection.setRequestProperty("Host", "circ." + UoBLibrary.getDataCenter() + ".worldcat.org");
             checkoutURLConnection.setRequestProperty("Authorization", auth);
 
             checkoutURLConnection.setRequestMethod("POST");
+            checkoutURLConnection.setRequestProperty("Content-Type", "application/xml;charset=UTF-8");
+            checkoutURLConnection.setRequestProperty("Accept", "application/xml");
 
             checkoutURLConnection.setDoOutput(true);
             DataOutputStream wr = new DataOutputStream(checkoutURLConnection.getOutputStream());
+
             wr.writeBytes(body);
             wr.flush();wr.close();
 

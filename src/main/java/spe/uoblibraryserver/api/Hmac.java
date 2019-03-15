@@ -82,8 +82,7 @@ class Hmac {
     Date date = new Date();
     String nonce = UoBLibrary.getNonce();
     long time = date.getTime() / 1000;
-    String message = getMessage(time, nonce, query, Keys.getOAuthPublicKey());
-
+    String message = getMessage(time, nonce, query, publicKey);
     String hash = "";
     try {
       hash = getHash(message, privateKey);

@@ -38,4 +38,13 @@ public class UoBLibrary {
 
     return Integer.toString(i) + j;
   }
+
+  /**
+   * The user ID for the user that can check out book
+   *
+   * @return - the user ID
+   */
+  public static String getAdminUID() {
+    return "69d0ab61-7ce7-41ee-b86a-8f14520a47a4";
+  }
 }

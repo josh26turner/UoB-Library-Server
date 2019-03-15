@@ -43,6 +43,9 @@ public class Request {
           checkOutRequest.setItemID(item.getChildNodes().item(0).getNodeValue());
           break;
 
+        case "location":
+          checkOutRequest.setLocation(item.getChildNodes().item(0).getNodeValue());
+
         default:
           ErrorResponse.erroneousXML(xml);
       }
@@ -56,6 +59,7 @@ public class Request {
   public String formatRequest(CheckOutRequest checkOutRequest){
     String userId = checkOutRequest.getUserID();
     String itemIdValue = checkOutRequest.getItemID();
+    String location = checkOutRequest.getLocation();
 
     return "<?xml version=\"1.0\"?>\n" +
             "<NCIPMessage \n" +
@@ -70,18 +74,19 @@ public class Request {
             "                <AgencyId ncip:Scheme=\"http://oclc.org/ncip/schemes/agencyid.scm\">" + UoBLibrary.getRegistryId() + "</AgencyId>\n" +
             "            </FromAgencyId>\n" +
             "            <ToAgencyId>\n" +
-            "                <AgencyId>" + UoBLibrary.getRegistryId() + "</AgencyId>\n" +
+            "                <AgencyId>" + location + "</AgencyId>\n" +
             "            </ToAgencyId>\n" +
             "            <ApplicationProfileType ncip:Scheme=\"http://oclc.org/ncip/schemes/application-profile/platform.scm\">Version 2011</ApplicationProfileType>\n" +
             "        </InitiationHeader>\n" +
             "        <UserId>\n" +
-            "            <AgencyId>128807</AgencyId>\n" +
+            "            <AgencyId>" + UoBLibrary.getRegistryId() + "</AgencyId>\n" +
             "            <UserIdentifierValue>" + userId + "</UserIdentifierValue>\n" +
             "        </UserId>\n" +
             "        <ItemId>\n" +
             "            <AgencyId>" + UoBLibrary.getRegistryId() + "</AgencyId>\n" +
             "            <ItemIdentifierValue>" + itemIdValue + "</ItemIdentifierValue>\n" +
             "        </ItemId>\n" +
+            "        <ItemElementType>" + "description" + "</ItemElementType>\n" +
             "    </CheckOutItem>\n" +
             "</NCIPMessage>\n";
   }

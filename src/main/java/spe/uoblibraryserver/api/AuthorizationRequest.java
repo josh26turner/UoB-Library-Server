@@ -1,9 +1,7 @@
 package spe.uoblibraryserver.api;
 
 import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 class AuthorizationRequest {
@@ -78,19 +76,7 @@ class AuthorizationRequest {
   }
 
   private String readResponse(HttpsURLConnection idManagementURLConnection) throws IOException {
-    BufferedReader br =
-            new BufferedReader(
-                    new InputStreamReader(idManagementURLConnection.getInputStream()));
-
-    String input;
-    StringBuilder response = new StringBuilder();
-
-    while ((input = br.readLine()) != null){
-      response.append(input);
-    }
-    br.close();
-
-    return response.toString();
+    return HttpsRead.readResponse(idManagementURLConnection);
   }
 
   private String getOAuthAccessToken(String authResponse) {

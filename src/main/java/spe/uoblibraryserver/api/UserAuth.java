@@ -13,7 +13,6 @@ public class UserAuth {
       HttpsURLConnection meResourceURLConnection = (HttpsURLConnection) meResourceURL.openConnection();
 
       meResourceURLConnection.setRequestProperty("Host", "bub.share.worldcat.org");
-
       meResourceURLConnection.setRequestProperty("Authorization", "Bearer " + accessToken + ", principalID=\"" + userID + "\", principalIDNS=\"urn:oclc:platform:132607\"");
 
       meResourceURLConnection.setRequestMethod("POST");
@@ -23,7 +22,6 @@ public class UserAuth {
       wr.writeBytes(getBody(userID));
       wr.flush();wr.close();
 
-      System.out.println(meResourceURLConnection.getResponseCode());
       if (meResourceURLConnection.getResponseCode() == 200) return true;
     } catch (IOException e) {
       e.printStackTrace();

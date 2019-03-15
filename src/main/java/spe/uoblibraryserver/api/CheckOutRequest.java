@@ -3,17 +3,18 @@ package spe.uoblibraryserver.api;
 import org.xml.sax.SAXException;
 import spe.uoblibraryserver.api.xml.Request;
 
+import javax.net.ssl.HttpsURLConnection;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.net.URL;
 
 public class CheckOutRequest {
-    private String accessToken;
-    private String userID;
-    private String itemID;
-
-    public String getAccessToken() {
-        return accessToken;
-    }
+    private String
+                accessToken,
+                userID,
+                itemID,
+                location;
 
     public String getUserID() {
         return userID;
@@ -21,6 +22,10 @@ public class CheckOutRequest {
 
     public String getItemID() {
         return itemID;
+    }
+
+    public String getLocation() {
+        return location;
     }
 
     public void setAccessToken(String accessToken) {
@@ -34,7 +39,11 @@ public class CheckOutRequest {
     public void setItemID(String itemID) {
         this.itemID = itemID;
     }
-    
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
     String checkOutRequest(String xml) {
         try {
             Request request = new Request(xml, this);
@@ -44,12 +53,41 @@ public class CheckOutRequest {
 
             String body = request.formatRequest(this);
     
-            String auth = Hmac.getCheckoutHeader(userID);
+            String auth = Hmac.getCheckoutHeader(UoBLibrary.getAdminUID());
+
+            return makeRequest(auth, body);
             
         } catch (SAXException | ParserConfigurationException | IOException e) {
             e.printStackTrace();
         }
     
         return "";
+    }
+
+    private String makeRequest(String auth, String body) {
+        try {
+            URL checkoutURL = new URL("https://circ." + UoBLibrary.getDataCenter() + ".worldcat.org/ncip");
+
+            HttpsURLConnection checkoutURLConnection = (HttpsURLConnection) checkoutURL.openConnection();
+
+            checkoutURLConnection.setRequestProperty("Host", "circ." + UoBLibrary.getDataCenter() + ".worldcat.org");
+            checkoutURLConnection.setRequestProperty("Authorization", auth);
+
+            checkoutURLConnection.setRequestMethod("POST");
+
+            checkoutURLConnection.setDoOutput(true);
+            DataOutputStream wr = new DataOutputStream(checkoutURLConnection.getOutputStream());
+            wr.writeBytes(body);
+            wr.flush();wr.close();
+
+            return readResponse(checkoutURLConnection);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "Error";
+    }
+
+    private String readResponse(HttpsURLConnection idManagementURLConnection) throws IOException {
+        return HttpsRead.readResponse(idManagementURLConnection);
     }
 }

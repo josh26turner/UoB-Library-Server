@@ -4,6 +4,8 @@ import org.junit.Test;
 
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import static org.junit.Assert.assertEquals;
 
@@ -42,13 +44,19 @@ public class HmacTests {
    */
   @Test
   public void notATest(){
-    Mapper mapper = new Mapper();
+//    Mapper mapper = new Mapper();
+//
+//    mapper.checkout("<CheckoutBookRequest>\n" +
+//            "<userId>1234</userId>\n" +
+//            "<accessToken>5678</accessToken>\n" +
+//            "<itemId>9123</itemId>\n" +
+//            "<location>9123</location>\n" +
+//            "</CheckoutBookRequest>");
 
-    mapper.checkout("<CheckoutBookRequest>\n" +
-            "<userId>1234</userId>\n" +
-            "<accessToken>5678</accessToken>\n" +
-            "<itemId>9123</itemId>\n" +
-            "</CheckoutBookRequest>");
+    Date date = new Date();
+    date.setTime(date.getTime() + 604800000);
+    String dueDate = new SimpleDateFormat("yyyy-MM-dd").format(date);
+    System.out.println(dueDate);
   }
 
 

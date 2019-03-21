@@ -52,7 +52,7 @@ class Hmac {
   }
 
   /**
-   * Creates a geader for an oauth request
+   * Creates a header for an oauth request
    * @param query - the URL parameters
    * @param userID - the user making the request
    * @return - the header

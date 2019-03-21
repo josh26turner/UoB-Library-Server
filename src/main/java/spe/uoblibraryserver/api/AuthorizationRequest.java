@@ -8,7 +8,7 @@ class AuthorizationRequest {
   String makeRequest(String userID, String accessToken) {
 
     UserAuth userAuth = new UserAuth();
-    if (!userAuth.makeRequest(userID, accessToken)) return "Not authorized";
+    if (!userAuth.makeRequest(userID, accessToken)) return "406 - Not authorized";
 
     UserManagementRequest userManagementRequest = new UserManagementRequest();
 

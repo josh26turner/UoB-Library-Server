@@ -5,13 +5,14 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.URL;
 
-public class UserAuth {
-  public Boolean makeRequest(String userID, String accessToken) {
+class UserAuth {
+  Boolean makeRequest(String userID, String accessToken) {
     try {
       URL meResourceURL = new URL("https://bub.share.worldcat.org/ncip/circ-patron");
 
       HttpsURLConnection meResourceURLConnection = (HttpsURLConnection) meResourceURL.openConnection();
 
+      meResourceURLConnection.setRequestProperty("Content-Type", "application/xml;charset=UTF-8");
       meResourceURLConnection.setRequestProperty("Host", "bub.share.worldcat.org");
       meResourceURLConnection.setRequestProperty("Authorization", "Bearer " + accessToken + ", principalID=\"" + userID + "\", principalIDNS=\"urn:oclc:platform:132607\"");
 
@@ -51,29 +52,12 @@ public class UserAuth {
             "        <UserId>\n" +
             "            <UserIdentifierValue>" + userID + "</UserIdentifierValue>\n" +
             "        </UserId>\n" +
-            "        <LoanedItemsDesired/>\n" +
-            "        <RequestedItemsDesired/>\n" +
-            "        <UserFiscalAccountDesired/>\n" +
             "        <Ext>\n" +
             "            <ns2:ResponseElementControl>\n" +
             "                <ns2:ElementType ncip:Scheme=\"http://worldcat.org/ncip/schemes/v2/extensions/elementtype.scm\">Account Details</ns2:ElementType>\n" +
             "                <ns2:StartElement> 1</ns2:StartElement>\n" +
             "                <ns2:MaximumCount>10</ns2:MaximumCount>\n" +
             "                <ns2:SortField ncip:Scheme=\"http://worldcat.org/ncip/schemes/v2/extensions/accountdetailselementtype.scm\">Accrual Date</ns2:SortField>\n" +
-            "                <ns2:SortOrderType ncip:Scheme=\"http://worldcat.org/ncip/schemes/v2/extensions/sortordertype.scm\">Ascending</ns2:SortOrderType>\n" +
-            "            </ns2:ResponseElementControl>\n" +
-            "            <ns2:ResponseElementControl>\n" +
-            "                <ns2:ElementType ncip:Scheme=\"http://worldcat.org/ncip/schemes/v2/extensions/elementtype.scm\">Loaned Item</ns2:ElementType>\n" +
-            "                <ns2:StartElement>1</ns2:StartElement>\n" +
-            "                <ns2:MaximumCount>10</ns2:MaximumCount>\n" +
-            "                <ns2:SortField ncip:Scheme=\"http://worldcat.org/ncip/schemes/v2/extensions/loaneditemelementtype.scm\">Date Due</ns2:SortField>\n" +
-            "                <ns2:SortOrderType ncip:Scheme=\"http://worldcat.org/ncip/schemes/v2/extensions/sortordertype.scm\">Ascending</ns2:SortOrderType>\n" +
-            "            </ns2:ResponseElementControl>\n" +
-            "            <ns2:ResponseElementControl>\n" +
-            "                <ns2:ElementType ncip:Scheme=\"http://worldcat.org/ncip/schemes/v2/extensions/elementtype.scm\">Requested Item</ns2:ElementType>\n" +
-            "                <ns2:StartElement>1</ns2:StartElement>\n" +
-            "                <ns2:MaximumCount>10</ns2:MaximumCount>\n" +
-            "                <ns2:SortField ncip:Scheme=\"http://worldcat.org/ncip/schemes/v2/extensions/requesteditemelementtype.scm\">Date Placed</ns2:SortField>\n" +
             "                <ns2:SortOrderType ncip:Scheme=\"http://worldcat.org/ncip/schemes/v2/extensions/sortordertype.scm\">Ascending</ns2:SortOrderType>\n" +
             "            </ns2:ResponseElementControl>\n" +
             "        </Ext>\n" +

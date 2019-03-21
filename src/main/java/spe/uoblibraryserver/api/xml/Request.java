@@ -31,8 +31,8 @@ public class Request {
       Node item = nodeList.item(i);
 
       switch (item.getNodeName()) {
-        case "userId":
-          checkOutRequest.setUserID(item.getChildNodes().item(0).getNodeValue());
+        case "barcode":
+          checkOutRequest.setUserBarcode(item.getChildNodes().item(0).getNodeValue());
           break;
 
         case "accessToken":
@@ -46,6 +46,9 @@ public class Request {
         case "location":
           checkOutRequest.setLocation(item.getChildNodes().item(0).getNodeValue());
 
+        case "userID":
+          checkOutRequest.setUserID(item.getChildNodes().item(0).getNodeValue());
+
         default:
           ErrorResponse.erroneousXML(xml);
       }
@@ -57,7 +60,7 @@ public class Request {
    * @return - The XML to form the body of the post request to WMS system to checkout a book
    */
   public String formatRequest(CheckOutRequest checkOutRequest){
-    String userId = checkOutRequest.getUserID();
+    String userId = checkOutRequest.getUserBarcode();
     String itemIdValue = checkOutRequest.getItemID();
     String location = checkOutRequest.getLocation();
 

@@ -45,9 +45,11 @@ public class Request {
 
         case "location":
           checkOutRequest.setLocation(item.getChildNodes().item(0).getNodeValue());
+          break;
 
-        case "userID":
+        case "userId":
           checkOutRequest.setUserID(item.getChildNodes().item(0).getNodeValue());
+          break;
 
         default:
           ErrorResponse.erroneousXML(xml);

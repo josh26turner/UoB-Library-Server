@@ -58,7 +58,8 @@ class Hmac {
    * @return - the header
    */
   static String getOAuthHeader(String query, String userID) {
-    return header(Keys.getOAuthPublicKey(), Keys.getOAuthSecretKey(), query, userID);
+    String [] oAuthKeys = Keys.getOAuthKeys();
+    return header(oAuthKeys[1], oAuthKeys[0], query, userID);
   }
 
   /**
@@ -67,7 +68,8 @@ class Hmac {
    * @return - the header
    */
   static String getCheckoutHeader(String userID) {
-    return header(Keys.getCheckoutPubicKey(), Keys.getCheckoutSecretKey(), "", userID);
+    String [] checkoutKeys = Keys.getCheckoutKeys();
+    return header(checkoutKeys[1], checkoutKeys[0], "", userID);
   }
 
   /**

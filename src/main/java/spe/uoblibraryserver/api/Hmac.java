@@ -89,7 +89,7 @@ class Hmac {
     try {
       hash = getHash(message, privateKey);
     } catch (Exception ex){
-      // ???
+      // This shouldn't be thrown as we have controlled the key and algorithm input
     }
     return "http://www.worldcat.org/wskey/v2/hmac/v1 " +
             "clientId=\"" + publicKey + "\", " +

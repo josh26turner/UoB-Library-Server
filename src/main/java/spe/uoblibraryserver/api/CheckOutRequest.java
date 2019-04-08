@@ -54,7 +54,10 @@ public class CheckOutRequest {
       Request request = new Request(xml, this);
 
       UserAuth userAuth = new UserAuth();
-      if (!userAuth.makeRequest(userID, accessToken)) return "406 - Not authorized";
+      if (!userAuth.makeRequest(userID, accessToken)) {
+        ErrorResponse.authError(userID, accessToken);
+        return "406 - Not authorized";
+      }
 
       String body = request.formatRequest(this);
 

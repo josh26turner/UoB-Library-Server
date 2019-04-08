@@ -8,7 +8,10 @@ class AuthorizationRequest {
   String makeRequest(String userID, String accessToken) {
 
     UserAuth userAuth = new UserAuth();
-    if (!userAuth.makeRequest(userID, accessToken)) return "406 - Not authorized";
+    if (!userAuth.makeRequest(userID, accessToken)) {
+      ErrorResponse.authError(userID, accessToken);
+      return "406 - Not authorized";
+    }
 
     UserManagementRequest userManagementRequest = new UserManagementRequest();
 
@@ -39,16 +42,8 @@ class AuthorizationRequest {
 
       accessTokenURLConnection.setRequestProperty("Authorization", authHeader);
 
-//      //Exponential backoff
-//      Random rand = new Random();
-//      for (int i = 0; accessTokenURLConnection.getResponseCode() != 200; i++) {
-//        int vary = rand.nextInt(3);
-//        wait((int) Math.pow(2, i) + vary);
-//      }
-
       return readResponse(accessTokenURLConnection);
 
-      //URL idManagementURL = new URL("https://" + UoBLibrary.getRegistryId() + ".share.worldcat.org/idaas/scim/v2/Me");
     } catch (IOException e) {
       e.printStackTrace();
     }

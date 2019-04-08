@@ -12,11 +12,11 @@ public class ErrorResponse {
   /**
    * When an unauthorised users try to check out a book
    * @param userID - the user
-   * @param itemID - the book
+   * @param accessToken - the access token
    */
-  public void authError(String userID, String itemID) {
+  public static void authError(String userID, String accessToken) {
     Date date = new Date();
-    String error = date.toString() + ", user: " + userID + " taking out: " + itemID;
+    String error = date.toString() + ", user: " + userID + " taking out: " + accessToken;
     
     writeToLog(error);
   }
